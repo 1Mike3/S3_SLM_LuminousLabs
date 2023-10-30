@@ -12,5 +12,5 @@ Sebastian, Emad, Michi
 * Three views have been created for a good overview of the project
 
 # Function
-* 
+
 
