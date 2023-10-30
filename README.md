@@ -7,9 +7,8 @@ Sebastian, Emad, Michi
 * Build tool: Maven
 
 # Github Project Structure
-* General Tasks which are not User-Stories are created as drafts
-* User-Stories are created as issues assigned to the repository
-* Three views have been created for a good overview of the project
+* We are utilizing Labels to differentiate between Tasks
+
 
 # Function
 
