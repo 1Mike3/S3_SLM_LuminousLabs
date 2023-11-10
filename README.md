@@ -9,7 +9,7 @@ Sebastian, Emad, Michi
 ## Conventions and Agreements 
 * Language : English
 * Package which contains the main function: runtime
-* Build tool: Maven
+* Suffix "Test" for testfiles
 
 ## Github Project Structure
 * We are utilizing Labels to differentiate between Tasks
