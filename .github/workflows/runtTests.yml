@@ -1,6 +1,7 @@
 # Java CI with Maven and Test Execution
-# on push and prequest for now
+# on push and pull-request for now
 # will maybe delete on push later -Michi
+# (Assignment relevant)
 name: Run Tests
 
 on:

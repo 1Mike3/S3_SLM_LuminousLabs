@@ -1,4 +1,6 @@
-# Creating a Java Archive File on Push
+# This file Generates a JAR file of our Project
+# (Assignment relevant)
+
 name: Generate JAR
 
 on:

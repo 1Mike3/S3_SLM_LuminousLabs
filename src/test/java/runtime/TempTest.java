@@ -20,9 +20,9 @@ public class TempTest {
     }
 
     @Test
-    public void testWillFailTestMethod() {
+    public void testWillPassMethod() {
         Temp tempTest = new Temp();
-        assertEquals(4562, tempTest.methodTestMethod(4, 5));
+        assertEquals(100, tempTest.methodTestMethod(50, 50));
     }
 
 
