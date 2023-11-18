@@ -18,4 +18,12 @@ public class TempTest {
         Temp tempTest = new Temp();
         assertEquals(9, tempTest.methodTestMethod(4, 5));
     }
+
+    @Test
+    public void testWillFailTestMethod() {
+        Temp tempTest = new Temp();
+        assertEquals(4562, tempTest.methodTestMethod(4, 5));
+    }
+
+
 }

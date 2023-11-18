@@ -1,7 +1,7 @@
 # Java CI with Maven and Test Execution
 # on push and prequest for now
 # will maybe delete on push later -Michi
-name: Java CI with Maven
+name: Run Tests
 
 on:
   push:
@@ -31,5 +31,5 @@ jobs:
       - name: Upload JAR
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: TestArtifact
           path: target/*.jar
