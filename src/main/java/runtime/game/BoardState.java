@@ -1,6 +1,6 @@
 package runtime.game;
 
-public enum BoardState {
+enum BoardState {
     CREATED,
     RUNNING,
     DONE

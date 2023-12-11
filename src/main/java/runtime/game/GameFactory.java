@@ -2,6 +2,6 @@ package runtime.game;
 
 import runtime.common.Result;
 
-public interface GameFactory {
+interface GameFactory {
     Result<Game, String> createGame(GameIO io, String gameType);
 }

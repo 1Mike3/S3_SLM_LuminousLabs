@@ -1,6 +1,6 @@
 package runtime.game;
 
-public enum PlayerState {
+enum PlayerState {
     UNDEFINED,
     LOSS,
     DRAW,

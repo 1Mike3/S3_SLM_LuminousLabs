@@ -1,6 +1,6 @@
 package runtime.game;
 
-public interface Board {
+interface Board {
     boolean addMove(int x, int y);
     char[][] getBoardValues();
     BoardState getBoardState();

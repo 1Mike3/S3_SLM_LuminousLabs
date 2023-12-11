@@ -2,7 +2,7 @@ package runtime.game;
 
 import java.util.List;
 
-public class TicTacToe_1vAi implements Game{
+class TicTacToe_1vAi implements Game{
 
     public TicTacToe_1vAi(Board board, GameIO io, List<Player> players){
 
