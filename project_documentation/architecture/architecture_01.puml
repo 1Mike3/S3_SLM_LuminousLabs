@@ -1,0 +1,127 @@
+@startuml 01
+
+
+package Application {
+
+        class App {
+            -config: Config
+            +main()
+            -createGame(): Game
+            -startGame(Game): void
+            -init(void): Config
+        }
+
+
+    package Common {
+        +interface Result <T,E>{
+            +hasValue(): boolean
+            +hasError(): boolean
+            +getValue(): T
+            +getError(): E
+        }
+    }
+
+    package Games {
+        
+        together{
+            +interface GameFactory {
+                createGame(io: GameIo): Result<Game, String>
+            }
+            +interface Game {
+                startGame(): void
+                getGameState(): GameState
+            }
+
+            #enum GameState {
+                CREATED
+                RUNNING
+                DONE
+                ABORTED
+            }
+
+            #class TicTacToe_1v1 {
+                #TicTacToe_1v1(board: Board, io: GameIo, players: List<Player>)
+            }
+
+            #class TicTacToe_1vAi {
+                #TicTacToe_1v1(board: Board, io: GameIo, players: List<Player>)
+            }
+        }
+
+        together{
+            +interface GameIo {
+                getInt(): Result<int, String>
+                getString(): Result<String, String>
+                putString(msg: String): Result<void, String>
+            }
+
+            #class GameIoImp {
+                GameIoImp(in: InputStream, out: OutputStream)
+            }
+        }
+
+        together{
+            #interface Player {
+                makeMove(board: Board): Result<void, String>
+            }
+
+            #class HumanPlayer {
+                #HumanPlayer(io: GameIo)
+            }    
+            
+            #class AiPlayer {
+                #AiPlayer(io: GameIo)
+            }
+
+        }
+
+        together{
+            #enum BoardState {
+                CREATED
+                RUNNING
+                DONE
+            }
+
+            #enum PlayerState {
+                UNDEFINED
+                LOSS
+                DRAW
+                WIN
+            }
+
+            #interface Board {
+                addMove(x: int, y: int): bool
+                getBoardValues(): char[][]
+                getBoardState(): BoardState
+                getPlayerState(player: Player): PlayerState
+            }
+
+            #class BoardImpl {
+                #BoardImpl(io: GameIo)
+            }
+        }
+    }
+}
+
+
+App -down-> GameFactory : > createGame
+App -> Game : > startGame()
+
+GameFactory -down-> Game
+
+Game -right-> GameState 
+Game <|-down- TicTacToe_1v1 
+Game <|-down- TicTacToe_1vAi 
+
+Board -left-> PlayerState
+Board -right-> BoardState
+Board <|-down- BoardImpl
+
+GameIo <|-down- GameIoImp
+
+Player <|-down- HumanPlayer
+Player <|-down- AiPlayer
+
+
+
+@enduml

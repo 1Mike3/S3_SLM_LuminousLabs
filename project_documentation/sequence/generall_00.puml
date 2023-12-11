@@ -1,0 +1,69 @@
+@startuml general_00
+
+' actor User as user
+participant Player as player
+participant Game as game
+participant "Abstract Game Factory" as game_c
+participant Application as app
+
+== init application ==
+
+app <-] : start program
+app -> app : read config
+note right : OPT
+app -> app : init with provided params (IO, logging, ...)
+app -> app : create config - enviroment/dependencies
+
+== init game ==
+
+app -> game_c : init - inject config
+game_c -> game_c : get game
+note right : possible IO 
+game_c -> game : init game - inject config
+game -> game : get gamemode
+note right : OPT\npossible IO 
+game -> player : init players - inject config
+
+== start game ==
+
+game_c -> game : start game
+game -> game : print welcome message and rules
+note right : OPT\nIO
+
+opt OPT
+    loop for each player
+    game -> player : configure players
+    note right : possible IO 
+        opt player is customizable 
+        player -> player : get custom params (char, name, ...)
+    note right : possible IO 
+        end
+    end
+end
+
+== play game ==
+
+loop game not finished
+    game -> game : draw game state
+    loop for each player
+        game -> player : make move
+        note right : possible IO 
+        game -> game : get game state
+        game -> game : draw game state
+        note right : possible IO 
+        break terminal game state
+        end 
+    end
+end
+
+== end game ==
+
+game -> game : draw game state
+loop fore each player
+    game -> player : print result
+    game -> player : close game action
+end
+
+game_c -> game : close game action
+
+@enduml
