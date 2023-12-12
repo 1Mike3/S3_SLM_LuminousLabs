@@ -1,7 +1,5 @@
-package runtime;
-
-import runtime.common.Result;
-import runtime.game.Game;
+import common.Result;
+import game.Game;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.

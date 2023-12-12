@@ -1,6 +1,6 @@
-package runtime.game;
+package game;
 
-import runtime.common.Result;
+import common.Result;
 
 interface Player {
     String getName();

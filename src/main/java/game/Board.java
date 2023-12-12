@@ -1,4 +1,4 @@
-package runtime.game;
+package game;
 
 interface Board {
     boolean addMove(int x, int y);
