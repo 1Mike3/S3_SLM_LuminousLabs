@@ -1,5 +1,3 @@
-package runtime;
-
 /**
  * Created by Michi
  * Temporary for checking out if Tests work

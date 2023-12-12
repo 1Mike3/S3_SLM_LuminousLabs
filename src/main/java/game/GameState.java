@@ -1,4 +1,4 @@
-package runtime.game;
+package game;
 
 public enum GameState {
     CREATED,

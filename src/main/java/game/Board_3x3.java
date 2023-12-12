@@ -1,4 +1,4 @@
-package runtime.game;
+package game;
 
 class Board_3x3 implements Board{
     Board_3x3(){}

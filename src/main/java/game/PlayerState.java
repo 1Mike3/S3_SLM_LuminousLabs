@@ -1,4 +1,4 @@
-package runtime.game;
+package game;
 
 enum PlayerState {
     UNDEFINED,

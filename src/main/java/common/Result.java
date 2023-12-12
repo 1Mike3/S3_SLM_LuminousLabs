@@ -1,4 +1,4 @@
-package runtime.common;
+package common;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -57,19 +57,18 @@ public record Result<T, E>(T value, E error) {
         }
     }
 
-    /*
-        public static void main(String[] args) {
-            // Example usage:
-            Result<Integer, String> result = divide(10, 2);
-            result.ifOk(value -> System.out.println("Result: " + value));
-            result.ifErr(error -> System.err.println("Error: " + error));
-        }
+    public static void main(String[] args) {
+        // Example usage:
+        Result<Integer, String> result = divide(10, 2);
+        result.ifOk(value -> System.out.println("Result: " + value));
+        result.ifErr(error -> System.err.println("Error: " + error));
+    }
 
-        private static Result<Integer, String> divide(int numerator, int denominator) {
-            if (denominator == 0) {
-                return Result.err("Cannot divide by zero.");
-            }
-            return Result.ok(numerator / denominator);
+    private static Result<Integer, String> divide(int numerator, int denominator) {
+        if (denominator == 0) {
+            return Result.err("Cannot divide by zero.");
         }
-     */
+        return Result.ok(numerator / denominator);
+    }
+
 }

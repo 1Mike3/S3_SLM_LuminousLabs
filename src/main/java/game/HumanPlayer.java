@@ -1,9 +1,9 @@
-package runtime.game;
+package game;
 
-import runtime.common.Result;
+import common.Result;
 
-class AiPlayer implements Player {
-    AiPlayer(GameIO io, String name, char mark){
+class HumanPlayer implements Player {
+    HumanPlayer(GameIO io, String name, char mark){
 
     }
 
