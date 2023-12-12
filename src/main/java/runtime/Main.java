@@ -1,5 +1,8 @@
 package runtime;
 
+import runtime.common.Result;
+import runtime.game.Game;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
@@ -16,6 +19,13 @@ public class Main {
             // for you, but you can always add more by pressing Ctrl+F8.
             System.out.println("i = " + i);
         }
+    }
 
+    private Result<Game, String> createGame(){
+        return Result.err("not implemented");
+    }
+
+    private void startGame(Game game){
+        game.startGame();
     }
 }
