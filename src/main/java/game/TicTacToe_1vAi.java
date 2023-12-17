@@ -4,7 +4,7 @@ import java.util.List;
 
 class TicTacToe_1vAi implements Game{
 
-    public TicTacToe_1vAi(Board board, GameIO io, List<Player> players){
+    public TicTacToe_1vAi(Board board, GameIOInterface io, List<Player> players){
 
     }
     @Override

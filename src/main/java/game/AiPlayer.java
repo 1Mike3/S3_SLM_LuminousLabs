@@ -3,7 +3,7 @@ package game;
 import common.Result;
 
 class AiPlayer implements Player {
-    AiPlayer(GameIO io, String name, char mark){
+    AiPlayer(GameIOInterface io, String name, char mark){
 
     }
 
