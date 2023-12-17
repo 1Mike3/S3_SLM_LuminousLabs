@@ -45,16 +45,18 @@ public record Result<T, E>(T value, E error) {
         return Result.err(error());
     }
 
-    public void ifOk(Consumer<T> consumer) {
+    public Result<T,E> ifOk(Consumer<T> consumer) {
         if (isOk()) {
             consumer.accept(value());
         }
+        return this;
     }
 
-    public void ifErr(Consumer<E> consumer) {
+    public Result<T, E> ifErr(Consumer<E> consumer) {
         if (isErr()) {
             consumer.accept(error());
         }
+        return this;
     }
 
     public static void main(String[] args) {
