@@ -1,0 +1,95 @@
+@startuml 00
+
+package IO {
+
+interface Input {
+    makeTurn(): Turn
+}
+
+interface Output {
+    drawBoard(): void
+}
+
+}
+
+package BL {
+
+package structs {
+
+struct Turn {
+    + x: int
+    + y: int
+    + player: Player
+}
+
+}
+
+package Interfaces {
+
+interface Player {
+    factory(): Player
+}
+
+interface TicTacToe {
+    factory(a: Player, b: Player): TicTacToe 
+}
+
+interface Board {
+    factory(): Board
+
+    isCellEmpty(x: int, y: int): bool
+    place(Turn): void
+    isFull(): bool
+    clear(): void
+    plrint(): void
+}
+
+}
+
+package Impl {
+
+class TicTacToeImpl implements TicTacToe {
+    - player1: Player
+    - player2: Player
+    - currentPlayer: Player
+    - board: Board
+
+    + TicTaxToe(): TickTacToe
+
+    + start(): void
+    - switchCurrentPlayer(): void
+    - hasWiner(): bool
+}
+
+class PlayerImpl implements Player{
+    - marker: char
+
+    + Player(marker: char): Player
+
+    + getMarker(): char
+}
+
+class BoardImpl implements Board{
+    - cells: char[][]
+
+    + Board(): Board
+
+    + isCellEmpty(x: int, y: int): bool
+    + place(x: int, y: int, marker: char): void
+    + isFull(): bool
+    + clear(): void
+    + plrint(): void
+}
+
+}
+
+}
+
+
+
+
+TicTacToe *-- Player
+TicTacToe *-- Board
+
+
+@enduml
