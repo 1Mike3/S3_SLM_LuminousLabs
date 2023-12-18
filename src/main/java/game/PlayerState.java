@@ -1,8 +1,6 @@
 package game;
 
-enum PlayerState {
-    UNDEFINED,
-    LOSS,
-    DRAW,
-    WIN
+public enum PlayerState {
+    X,
+    O
 }
