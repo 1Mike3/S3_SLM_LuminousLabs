@@ -2,20 +2,19 @@ package game;
 
 import common.Result;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class GameIO implements GameIOInterface {
 
-    /** constants for the input integer limits  */
-    private static final int MAX_INT = 100;
-    private static final int MIN_INT = 0;
+
 
     /** Variable to set the test mode */
     public Boolean testModeActivated = false;
     /** Variable to set the input stream
      * System.in is the default input stream, only changed for testing */
-    java.io.InputStream InputStream = System.in;
-    java.io.OutputStream OutputStream = System.out;
+    private java.io.InputStream InputStream = System.in;
+    private java.io.OutputStream OutputStream = System.out;
 
     /**
      * Method to set the test mode
@@ -37,18 +36,26 @@ public class GameIO implements GameIOInterface {
 
     /**
      * Method to get an integer from the user
-     * it is currently restricted to positive values in a certain range, becaue i don't expect a
-     * need for negative values for our board
+     *
      * @return Result<Integer, String> our common Result class
      */
     public Result<Integer, String> getInt() {
         Scanner scanner = new Scanner(InputStream);
+        try {
+            int input = scanner.nextInt();
+            return Result.ok(input);
+        } catch (Exception e) {
+            return Result.err("Input Range Error");
+        }
+        /* // Old Code, doesn't catch all errors
         int input = scanner.nextInt();
-        if (input < MIN_INT  || input > MAX_INT ) {
+        if (!Integer.class.isInstance(input)){
             return Result.err("Input Range Error");
         } else {
             return Result.ok(input);
         }
+        */
+
     }
 
     /**
@@ -57,11 +64,15 @@ public class GameIO implements GameIOInterface {
      */
     public Result<String, String> getString() {
         Scanner scanner = new Scanner(InputStream);
-        String input = scanner.nextLine();
-        if (input.length() < 1) {
+        try {
+            String input = scanner.nextLine();
+            if (input.length() < 1) {
+                return Result.err("Invalid Input");
+            } else {
+                return Result.ok(input);
+            }
+        } catch (Exception e) {
             return Result.err("Invalid Input");
-        } else {
-            return Result.ok(input);
         }
     }
 
