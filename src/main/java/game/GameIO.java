@@ -19,7 +19,6 @@ public class GameIO implements GameIOInterface {
     /**
      * Method to set the test mode
      * this method is used to replace the system streams with a test streams
-     * @return THERE IS NO RETURN :)
      * @param testMode, ture for testing active, false for testing inactive
      * @param InputStream, the input stream to be used for testing (else System.in)
      */
@@ -37,7 +36,7 @@ public class GameIO implements GameIOInterface {
     /**
      * Method to get an integer from the user
      *
-     * @return Result<Integer, String> our common Result class
+     * @return Result Integer, String our common Result class
      */
     public Result<Integer, String> getInt() {
         Scanner scanner = new Scanner(InputStream);
@@ -60,7 +59,7 @@ public class GameIO implements GameIOInterface {
 
     /**
      * Method to retrieve a String from the user
-     * @return Result<Boolean, String> our common Result class
+     * @return Result Boolean, String our common Result class
      */
     public Result<String, String> getString() {
         Scanner scanner = new Scanner(InputStream);
@@ -78,10 +77,10 @@ public class GameIO implements GameIOInterface {
 
     /**
      * Method to print a String to the Console
-     * @return Result<Boolean, String> our common Result class
+     * @return Result Boolean, String our common Result class
      */
     public Result<Boolean, String> putString(String string) {
-        if (string.length() < 1) {
+        if (string.isEmpty()) {
             return Result.err("Invalid String");
         }else{
             System.out.println(string);

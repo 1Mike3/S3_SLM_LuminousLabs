@@ -1,5 +1,6 @@
 package game;
 import common.Result;
+import helpers.OSchecker;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -123,8 +124,15 @@ public class GameIOTest {
         System.setOut(new PrintStream(testOutput));
         Result<Boolean, String> result = gameIOTest.putString("Hello World");
         assertTrue(result.isOk());
-        assertEquals("Hello World\n", testOutput.toString()); // Including the newline character added by println
 
+        //This extra snippets are used to let the test work properly on windows and linux (LF/CRLF)
+        OSchecker osCk = new OSchecker();
+        if(OSchecker.isUnix())
+            assertEquals("Hello World\n", testOutput.toString()); // Including the newline character added by println
+        else if(OSchecker.isWindows())
+            assertEquals("Hello World\r\n", testOutput.toString()); // Including the newline character added by println
+        else
+            assertEquals("unsupported OS", "unsupported");
         // Test with an empty string
         testOutput.reset();
         result = gameIOTest.putString("");
@@ -132,20 +140,32 @@ public class GameIOTest {
         assertEquals("Invalid String", result.error());
         assertEquals("", testOutput.toString());
 
-        // Test with a long string, seems ther is an app that does that for me
+
+
+        // Test with a long string, seems there is an app that generates it for me :)
         testOutput.reset();
         String longString = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. :)";
         result = gameIOTest.putString(longString);
         assertTrue(result.isOk());
-        assertEquals(longString + "\n", testOutput.toString());
+        if(OSchecker.isUnix())
+            assertEquals(longString + "\n", testOutput.toString());
+        else if(OSchecker.isWindows())
+            assertEquals(longString + "\r\n", testOutput.toString());
+        else
+            assertEquals("unsupported OS", "unsupported");
+
 
         // Test with a string containing special characters
         testOutput.reset();
         String specialString = "Special characters: !@#öööö$%^&*()_+ääääää{}|:\"<>?";
         result = gameIOTest.putString(specialString);
         assertTrue(result.isOk());
-        assertEquals(specialString + "\n", testOutput.toString());
-
+        if(OSchecker.isUnix())
+            assertEquals(specialString + "\n", testOutput.toString());
+        else if(OSchecker.isWindows())
+            assertEquals(specialString + "\r\n", testOutput.toString());
+        else
+            assertEquals("unsupported OS", "unsupported");
         // Resetting System.out to its original state
         System.setOut(System.out);
     }
