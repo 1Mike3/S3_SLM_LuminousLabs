@@ -51,9 +51,21 @@ class Board_3x3 implements Board {
     }
 
     private boolean checkWin() {
-        // Logic to check if the current player has won
-        return false;
+        char mark = currentPlayer == PlayerState.X ? 'X' : 'O';
+
+        // Check rows and columns
+        for (int i = 0; i < 3; i++) {
+            if ((board[i][0] == mark && board[i][1] == mark && board[i][2] == mark) ||
+                    (board[0][i] == mark && board[1][i] == mark && board[2][i] == mark)) {
+                return true;
+            }
+        }
+
+        // Check diagonals
+        return (board[0][0] == mark && board[1][1] == mark && board[2][2] == mark) ||
+                (board[0][2] == mark && board[1][1] == mark && board[2][0] == mark);
     }
+
 
     private boolean isBoardFull() {
         for (int i = 0; i < 3; i++) {
