@@ -8,8 +8,8 @@ Sebastian, Emad, Michi
 
 ## Conventions and Agreements 
 * Language : English
-* Package which contains the main function: runtime
 * Suffix "Test" for testfiles
+*  Comments are written using the JavaDoc standard
 
 ## Github Project Structure
 * We are utilizing Labels to differentiate between Tasks
