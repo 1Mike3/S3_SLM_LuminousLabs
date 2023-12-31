@@ -13,17 +13,67 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class GameFactoryImplTest {
-
     @Test
     void createGame_valid_input() {
         GameFactoryImpl factory = spy(new GameFactoryImpl());
-        Player player = mock(Player.class);
+        Player player_1 = mock(Player.class);
+        Player player_2 = mock(Player.class);
         GameIO io = mock(GameIO.class);
 
-        doReturn(Result.ok(player)).when(factory).createHumanPlayer(any(GameIO.class));
+        doReturn(Result.ok(player_1))
+                .doReturn(Result.ok(player_2))
+                .when(factory)
+                .createHumanPlayer(io);
+
+        when(player_1.getName()).thenReturn("X");
+        when(player_2.getName()).thenReturn("O");
+
+        when(player_1.getMark()).thenReturn('X');
+        when(player_2.getMark()).thenReturn('O');
 
         var r = factory.createGame(io, GameType.TICTACTOE_1V1);
         assertTrue(r.isOk());
+    }
+
+    @Test
+    void createGame_playersChooseSameMark_error() {
+        GameFactoryImpl factory = spy(new GameFactoryImpl());
+        Player player_1 = mock(Player.class);
+        Player player_2 = mock(Player.class);
+        GameIO io = mock(GameIO.class);
+
+        doReturn(Result.ok(player_1))
+                .doReturn(Result.ok(player_2))
+                .when(factory)
+                .createHumanPlayer(io);
+
+        when(player_1.getName()).thenReturn("X");
+        when(player_2.getName()).thenReturn("O");
+
+        when(player_1.getMark()).thenReturn('X');
+        when(player_2.getMark()).thenReturn('X');
+
+        var r = factory.createGame(io, GameType.TICTACTOE_1V1);
+        assertTrue(r.isErr());
+    }
+
+    @Test
+    void createGame_playersChooseSameName_error() {
+        GameFactoryImpl factory = spy(new GameFactoryImpl());
+        Player player_1 = mock(Player.class);
+        Player player_2 = mock(Player.class);
+        GameIO io = mock(GameIO.class);
+
+        doReturn(Result.ok(player_1))
+                .doReturn(Result.ok(player_2))
+                .when(factory)
+                .createHumanPlayer(io);
+
+        when(player_1.getName()).thenReturn("x");
+        when(player_2.getName()).thenReturn("X");
+
+        var r = factory.createGame(io, GameType.TICTACTOE_1V1);
+        assertTrue(r.isErr());
     }
 
     @Test
@@ -32,7 +82,9 @@ class GameFactoryImplTest {
         Player player = mock(Player.class);
         GameIO io = mock(GameIO.class);
 
-        doReturn(Result.err("some error")).when(factory).createHumanPlayer(any(GameIO.class));
+        doReturn(Result.err("some error"))
+                .when(factory)
+                .createHumanPlayer(any(GameIO.class));
 
         var r = factory.createGame(io, GameType.TICTACTOE_1V1);
         assertTrue(r.isErr());
@@ -162,7 +214,11 @@ class GameFactoryImplTest {
     void create_TICTACTOE_1V1_ValidUserInput() {
         GameIO io = mock(GameIO.class);
         when(io.putString(any(String.class))).thenReturn(Result.ok(true));
-        when(io.getString()).thenReturn(Result.ok("X"));
+        when(io.getString()).thenReturn(
+                Result.ok("Jeff1"),
+                Result.ok("X"),
+                Result.ok("Heff2"),
+                Result.ok("O"));
 
         GameFactoryImpl factory = new GameFactoryImpl();
         var r = factory.createHumanPlayer(io);

@@ -14,6 +14,14 @@ import static java.util.FormatProcessor.FMT;
 class GameFactoryImpl implements GameFactory {
     private static final int MAX_PLAYER_NAME_LENGTH = 20;
     private static final int MAX_RETRIES = 3;
+
+    /**
+     * Creates a game for the provided gameType and handles
+     * the necessary user interactions.
+     * @param io
+     * @param gameType
+     * @return
+     */
     @Override
     public Result<Game, String> createGame(GameIO io, GameType gameType) {
         if (io == null){
@@ -28,8 +36,12 @@ class GameFactoryImpl implements GameFactory {
         }
     }
 
+    /**
+     * Creates a game for GameType.TICTACTOE_1V1
+     * @param io
+     * @return
+     */
     Result<Game, String> create_TICTACTOE_1V1(GameIO io){
-
         Result<Player, String> r_player_1 = createHumanPlayer(io);
         if(r_player_1.isErr()){
             return Result.err(r_player_1.error());
@@ -42,6 +54,15 @@ class GameFactoryImpl implements GameFactory {
 
         Player player_1 = r_player_1.value();
         Player player_2 = r_player_2.value();
+
+        if(player_1.getName().equals(player_2.getName())){
+            return Result.err("Both players chose the same name");
+        }
+
+        if(player_1.getMark() == player_2.getMark()){
+            return Result.err("Both players chose the same mark.");
+        }
+
         Board board = new Board_3x3();
         List<Player> players = List.of(player_1, player_2);
         Game game = new TicTacToe_1v1(board, io, players);
@@ -49,6 +70,12 @@ class GameFactoryImpl implements GameFactory {
         return Result.ok(game);
     }
 
+    /**
+     * Creates a human player and handles all user interactions
+     * like ask for name and mark.
+     * @param io
+     * @return
+     */
     Result<Player, String> createHumanPlayer(GameIO io){
         Result<String, String> r_name = getPlayerName(io);
         if(r_name.isErr()){
@@ -64,16 +91,35 @@ class GameFactoryImpl implements GameFactory {
         return Result.ok(player);
     }
 
+    /**
+     * Gets the player's name from the user.
+     * @param io
+     * @return
+     */
     Result<String, String> getPlayerName(GameIO io){
         String user_prompt = FMT."Please input a name like [a-zA-z0-9]{1,%d\{MAX_PLAYER_NAME_LENGTH}";
         return getInputFromUser(io, this::isValidName, (str) -> str, user_prompt);
     }
 
+    /**
+     * Gets the player's mark from the user.
+     * @param io
+     * @return
+     */
     Result<Character, String> getPlayerChar(GameIO io){
         String user_prompt = "Please input a single character for the board like [A-Z]{1}.";
         return getInputFromUser(io, this::isValidChar, (str) -> str.charAt(0), user_prompt);
     }
 
+    /**
+     * Genaric method to query a user for input and validation.
+     * @param io
+     * @param validator
+     * @param mapper
+     * @param prompt
+     * @return
+     * @param <T>
+     */
     private <T> Result<T, String> getInputFromUser(GameIO io, Predicate<String> validator, Function<String, T> mapper, String prompt){
         boolean isValidName;
         int count_retries = 0;
@@ -104,6 +150,11 @@ class GameFactoryImpl implements GameFactory {
         return isValidName ? Result.ok(mapper.apply(r_get_name.value())) : Result.err("Invalid input");
     }
 
+    /**
+     * Checks is a string is a valid player name.
+     * @param str
+     * @return
+     */
     boolean isValidName(String str){
         if(str == null){
             return false;
@@ -114,6 +165,11 @@ class GameFactoryImpl implements GameFactory {
         return m.matches();
     }
 
+    /**
+     * Checks is a char is a valid player mark.
+     * @param str
+     * @return
+     */
     boolean isValidChar(String str){
         if(str == null || str.length() > 1){
             return false;
