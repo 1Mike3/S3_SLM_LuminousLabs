@@ -18,7 +18,7 @@ public class GameIOTest {
      */
     @Test
     public void testGetInt()  {
-        GameIO gameIOTest = new GameIO();
+        GameIOImpl gameIOTest = new GameIOImpl();
         java.io.InputStream InputStream = new java.io.ByteArrayInputStream("55".getBytes());
         java.io.OutputStream OutputStream = new java.io.ByteArrayOutputStream();
 
@@ -76,7 +76,7 @@ public class GameIOTest {
      */
     @Test
     public void testGetString() {
-        GameIO gameIOTest = new GameIO();
+        GameIOImpl gameIOTest = new GameIOImpl();
 
         // Test with valid string input
         ByteArrayInputStream testInput = new ByteArrayInputStream("yabaDaba doooooooo\n".getBytes());
@@ -116,7 +116,7 @@ public class GameIOTest {
      */
     @Test
     public void testPutString() {
-        GameIO gameIOTest = new GameIO();
+        GameIO gameIOTest = new GameIOImpl();
 
         // Test with a valid string
         ByteArrayOutputStream testOutput = new ByteArrayOutputStream();

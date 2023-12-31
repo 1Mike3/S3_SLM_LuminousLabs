@@ -3,5 +3,5 @@ package game;
 import common.Result;
 
 interface GameFactory {
-    Result<Game, String> createGame(GameIOInterface io, GameType gameType);
+    Result<Game, String> createGame(GameIO io, GameType gameType);
 }

@@ -3,7 +3,7 @@ package game;
 import common.Result;
 
 class HumanPlayer implements Player {
-    HumanPlayer(GameIOInterface io, String name, char mark){
+    HumanPlayer(GameIO io, String name, char mark){
 
     }
 
