@@ -14,7 +14,7 @@ class GameIOImpl implements GameIO {
      * System.in is the default input stream, only changed for testing */
     private java.io.InputStream InputStream = System.in;
     private java.io.OutputStream OutputStream = System.out;
-
+    
     /**
      * Method to set the test mode
      * this method is used to replace the system streams with a test streams

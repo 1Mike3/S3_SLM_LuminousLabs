@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class GameFactoryImplTest {
     @Test
-    void createGame_valid_input() {
+    void createGame_validInput_game() {
         GameFactoryImpl factory = spy(new GameFactoryImpl());
         Player player_1 = mock(Player.class);
         Player player_2 = mock(Player.class);

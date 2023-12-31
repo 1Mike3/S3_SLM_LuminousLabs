@@ -4,13 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GameIOTest {
+public class GameIOImplTest {
 
     /** Performing tests on the GetInt function
     * edge cases and purposefully wrong input
