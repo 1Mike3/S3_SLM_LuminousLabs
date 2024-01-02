@@ -3,15 +3,10 @@ package helpers;
 
 /**
  * The {@code OSChecker} class is a utility to determine the operating system of the current environment.
- * It provides methods to check if the operating system is Windows, MacOS, Unix/Linux, or Solaris.
- * The class also includes a method to retrieve a short string representation of the operating system.
+ * It provides methods to check if the operating system is Windows or Linux, other systems not supported anyway
+ *
  */
 
-/*
-!Disclaimer!
-I didn't write this code myself, the source is listed below
-https://stackoverflow.com/questions/14288185/detecting-windows-or-linux
- */
 
 public class OSchecker {
 
@@ -24,7 +19,6 @@ public class OSchecker {
         public static boolean isWindows() {
             return OS.contains("win");
         }
-
 
         public static boolean isUnix() {
             return (OS.contains("nix") || OS.contains("nux") || OS.contains("aix"));

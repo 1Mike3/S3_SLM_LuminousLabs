@@ -3,7 +3,7 @@ package game;
 import java.util.List;
 
 class TicTacToe_1v1 implements Game {
-    TicTacToe_1v1(Board board, GameIOInterface io, List<Player> players){
+    TicTacToe_1v1(Board board, GameIO io, List<Player> players){
 
     }
 
