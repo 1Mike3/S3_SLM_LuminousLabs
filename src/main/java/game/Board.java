@@ -1,8 +1,8 @@
 package game;
 
 interface Board {
-    boolean addMove(int x, int y);
+    boolean addMove(Player player, int x, int y);
     char[][] getBoardValues();
     BoardState getBoardState();
-    PlayerState getPlayerState();
+    PlayerState getPlayerState(Player player);
 }

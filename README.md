@@ -7,14 +7,19 @@ Sebastian, Emad, Michi
 * JAVA JDK: Oracle Openjdk-21 version 2
 * Supported OS: Windows, Linux
 
-## Conventions and Agreements 
+## Conventions and Agreements
 * Language : English
 * Suffix "Test" for testfiles
 * Comments are written using the JavaDoc standard
+* Unit tests
+  * class names are [class]Test like ...
+    * GameFactoryImplTest
+    * GameIOImpl
+  * methods names are short descriptions of the test like [method under test}\_[input]\_[outcome] ...
+    * createGame_validInput_returnsGame
 
 ## Github Project Structure
 * We are utilizing Labels to differentiate between Tasks
-
 
 ## Function
 * A "helpers" Package has been added for classes which are not specific to the project
