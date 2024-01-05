@@ -8,3 +8,4 @@ interface GameIO {
     Result<String, String> getString();
     Result<Boolean, String> putString(String string);
 }
+
