@@ -2,41 +2,44 @@ package game;
 
 import common.Result;
 
+
 import java.util.Scanner;
 
+public class GameIOImpl implements GameIO {
 
-class GameIOImpl implements GameIO {
 
 
-    /** Variable to set the test mode */
-    public Boolean testModeActivated = false;
+
+
     /** Variable to set the input stream
      * System.in is the default input stream, only changed for testing */
     private java.io.InputStream InputStream = System.in;
-    private java.io.OutputStream OutputStream = System.out;
-    
+    java.io.OutputStream OutputStream = System.out;
+
+
     /**
-     * Method to set the test mode
-     * this method is used to replace the system streams with a test streams
-     * @return THERE IS NO RETURN :)
-     * @param testMode, ture for testing active, false for testing inactive
-     * @param InputStream, the input stream to be used for testing (else System.in)
+     * Constructor GameIO, sets Streams, for default ()
+     * The Streams can be changed, mostly relevant for testing
+     * @param InputSteam
+     * @param OutputStream
      */
-    public void setTestMode(Boolean testMode, java.io.InputStream InputStream, java.io.OutputStream OutputStream) {
-        if (testMode) {
-            this.InputStream = InputStream;
+    public GameIOImpl (java.io.InputStream InputSteam, java.io.OutputStream OutputStream){
+        if (InputSteam != null)
+            this.InputStream  = InputSteam;
+        if (OutputStream != null)
             this.OutputStream = OutputStream;
-        } else {
-            this.InputStream = System.in;
-            this.OutputStream = System.out;
-        }
-        this.testModeActivated = testMode;
     }
+
+    /** For default Streams*/
+    public  GameIOImpl (){
+
+    }
+
 
     /**
      * Method to get an integer from the user
      *
-     * @return Result<Integer, String> our common Result class
+     * @return Result Integer, String our common Result class
      */
     public Result<Integer, String> getInt() {
         Scanner scanner = new Scanner(InputStream);
@@ -46,20 +49,12 @@ class GameIOImpl implements GameIO {
         } catch (Exception e) {
             return Result.err("Input Range Error");
         }
-        /* // Old Code, doesn't catch all errors
-        int input = scanner.nextInt();
-        if (!Integer.class.isInstance(input)){
-            return Result.err("Input Range Error");
-        } else {
-            return Result.ok(input);
-        }
-        */
-
     }
+
 
     /**
      * Method to retrieve a String from the user
-     * @return Result<Boolean, String> our common Result class
+     * @return Result Boolean, String our common Result class
      */
     public Result<String, String> getString() {
         Scanner scanner = new Scanner(InputStream);
@@ -75,17 +70,18 @@ class GameIOImpl implements GameIO {
         }
     }
 
+
     /**
      * Method to print a String to the Console
-     * @return Result<Boolean, String> our common Result class
+     * @return Result Boolean, String our common Result class
      */
     public Result<Boolean, String> putString(String string) {
-        if (string.length() < 1) {
+        if (string.isEmpty()) {
             return Result.err("Invalid String");
         }else{
             System.out.println(string);
             return Result.ok(true);
         }
+
     }
 }
-
