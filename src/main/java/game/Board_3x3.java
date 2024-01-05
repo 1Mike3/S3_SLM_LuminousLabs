@@ -1,39 +1,51 @@
+
 package game;
 
-class Board_3x3 implements Board {
-    private char[][] board;
-    private PlayerState currentPlayer;
-    private BoardState boardState;
+    class Board_3x3 implements Board {
+        private char[][] board;
+        private BoardState boardState;
+        private PlayerState playerState;
+        private Player player1;
+        private Player player2;
+        private Player currentPlayer;
 
-    Board_3x3() {
-        board = new char[3][3];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = ' ';
+        // Constructor
+        Board_3x3(Player player1, Player player2) {
+            this.player1 = player1;
+            this.player2 = player2;
+            this.currentPlayer = player1; // Start with player 1
+
+            board = new char[3][3];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    board[i][j] = ' '; // Initialize with empty spaces
+                }
             }
+            boardState = BoardState.CREATED;
+            playerState = PlayerState.UNDEFINED;
         }
-        currentPlayer = PlayerState.X;
-        boardState = BoardState.CREATED;
-    }
 
-    @Override
-    public boolean addMove(int x, int y) {
-        if (x < 0 || x >= 3 || y < 0 || y >= 3 || board[x][y] != ' ' || boardState == BoardState.DONE) {
+        private char getCurrentPlayerMark() {
+            return currentPlayer.getMark();
+        }
+
+        private void switchTurn() {
+            currentPlayer = (currentPlayer == player1) ? player2 : player1;
+        }
+
+        @Override
+        public boolean addMove(int x, int y) {
+            char mark = getCurrentPlayerMark();
+
+            if (x >= 0 && x < 3 && y >= 0 && y < 3 && board[x][y] == ' ') {
+                board[x][y] = mark;
+                updateBoardAndPlayerState(x, y, mark);
+                switchTurn(); // Switch the turn after a move
+                return true;
+            }
             return false;
         }
-        board[x][y] = currentPlayer == PlayerState.X ? 'X' : 'O'; // Place the move
-        if (checkWin()) {
-            boardState = BoardState.DONE;
-            // Additional logic to handle win can be added here
-        } else if (isBoardFull()) {
-            boardState = BoardState.DONE;
-            // Additional logic to handle draw can be added here
-        } else {
-            currentPlayer = currentPlayer == PlayerState.X ? PlayerState.O : PlayerState.X; // Switch player
-            boardState = BoardState.RUNNING;
-        }
-        return true;
-    }
+
 
     @Override
     public char[][] getBoardValues() {
@@ -47,34 +59,88 @@ class Board_3x3 implements Board {
 
     @Override
     public PlayerState getPlayerState() {
-        return currentPlayer;
+        return playerState;
     }
 
-    private boolean checkWin() {
-        char mark = currentPlayer == PlayerState.X ? 'X' : 'O';
-
-        // Check rows and columns
-        for (int i = 0; i < 3; i++) {
-            if ((board[i][0] == mark && board[i][1] == mark && board[i][2] == mark) ||
-                    (board[0][i] == mark && board[1][i] == mark && board[2][i] == mark)) {
-                return true;
-            }
+    // Additional private method to update the state of the board and player after a move
+    private void updateBoardAndPlayerState(int x, int y, char mark) {
+        if (checkWin(x, y, mark)) {
+            playerState = PlayerState.WIN;
+        } else if (checkDraw()) {
+            playerState = PlayerState.DRAW;
         }
 
-        // Check diagonals
-        return (board[0][0] == mark && board[1][1] == mark && board[2][2] == mark) ||
-                (board[0][2] == mark && board[1][1] == mark && board[2][0] == mark);
+        // Update the board state based on player state
+        if (playerState == PlayerState.WIN || playerState == PlayerState.DRAW) {
+            boardState = BoardState.DONE;
+        } else {
+            boardState = BoardState.RUNNING;
+        }
     }
 
-
-    private boolean isBoardFull() {
+    private boolean checkDraw() {
+        // Check if all cells are filled
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == ' ') {
-                    return false;
-                }
+                 if (board[i][j] == ' ') {
+                     return false;
+                 }
             }
         }
         return true;
     }
+
+    // Additional private method to check if the game is won
+    private boolean checkWin(int x, int y, char mark) {
+        // Check if the row is filled
+        boolean rowFilled = true;
+        for (int i = 0; i < 3; i++) {
+            if (board[x][i] != mark) {
+                rowFilled = false;
+                break;
+            }
+        }
+        if (rowFilled) {
+            return true;
+        }
+
+        // Check if the column is filled
+        boolean colFilled = true;
+        for (int i = 0; i < 3; i++) {
+            if (board[i][y] != mark) {
+                colFilled = false;
+                break;
+            }
+        }
+        if (colFilled) {
+            return true;
+        }
+
+        // Check if the diagonal is filled
+        boolean diagFilled = true;
+        for (int i = 0; i < 3; i++) {
+            if (board[i][i] != mark) {
+                diagFilled = false;
+                break;
+            }
+        }
+        if (diagFilled) {
+            return true;
+        }
+
+        // Check if the anti-diagonal is filled
+        boolean antiDiagFilled = true;
+        for (int i = 0; i < 3; i++) {
+            if (board[i][2 - i] != mark) {
+                antiDiagFilled = false;
+                break;
+            }
+        }
+        if (antiDiagFilled) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
