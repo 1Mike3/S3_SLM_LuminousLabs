@@ -1,7 +1,8 @@
 @startuml 01
 
+' left to right direction
 
-package Application {
+    package Application {
 
         class App {
             -config: Config
@@ -13,23 +14,31 @@ package Application {
 
 
     package Common {
-        +interface Result <T,E>{
-            +hasValue(): boolean
-            +hasError(): boolean
-            +getValue(): T
-            +getError(): E
+        +struct Result <T,E>{
+            +ok(value: T): Result<T,E>
+            +err(error: E): Result<T,E>
+            ifErr(consumer: Consumer<E>): Result<T,E>
+            ifOk(consumer: Consumer<T>): Result<T,E>
+            map(func: Function<T,U>): Result<U,E>
+            ok(T): Result<T,E>
+            unwrap(): T
         }
     }
 
     package Games {
-        
+        'Game
         together{
             +interface GameFactory {
-                createGame(io: GameIo): Result<Game, String>
+                createGame(io: GameIo, gameType: GameType): Result<Game, String>
             }
+
             +interface Game {
                 startGame(): void
                 getGameState(): GameState
+            }
+
+            +enum GameType{
+                TicTacToe_1v1
             }
 
             #enum GameState {
@@ -48,6 +57,7 @@ package Application {
             }
         }
 
+        'GameIO
         together{
             +interface GameIo {
                 getInt(): Result<int, String>
@@ -60,6 +70,7 @@ package Application {
             }
         }
 
+        'Player
         together{
             #interface Player {
                 makeMove(board: Board): Result<void, String>
@@ -75,6 +86,7 @@ package Application {
 
         }
 
+        'Board
         together{
             #enum BoardState {
                 CREATED
@@ -103,11 +115,11 @@ package Application {
     }
 }
 
-
-App -down-> GameFactory : > createGame
+App -down-> GameFactory : > createGame()
 App -> Game : > startGame()
 
 GameFactory -down-> Game
+GameFactory -right-> GameType
 
 Game -right-> GameState 
 Game <|-down- TicTacToe_1v1 
@@ -121,7 +133,5 @@ GameIo <|-down- GameIoImp
 
 Player <|-down- HumanPlayer
 Player <|-down- AiPlayer
-
-
 
 @enduml
