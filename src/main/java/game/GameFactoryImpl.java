@@ -97,7 +97,7 @@ class GameFactoryImpl implements GameFactory {
      * @return
      */
     Result<String, String> getPlayerName(GameIO io){
-        String user_prompt = FMT."Please input a name like [a-zA-z0-9]{1,%d\{MAX_PLAYER_NAME_LENGTH}";
+        String user_prompt = String.format("Please input a name like [a-zA-Z0-9]{1,\\%d}", MAX_PLAYER_NAME_LENGTH);
         return getInputFromUser(io, this::isValidName, (str) -> str, user_prompt);
     }
 
@@ -160,7 +160,7 @@ class GameFactoryImpl implements GameFactory {
             return false;
         }
 
-        Pattern p = Pattern.compile(FMT."^[a-zA-Z0-9]{1,%d\{MAX_PLAYER_NAME_LENGTH}}$");
+        Pattern p = Pattern.compile(String.format("^[a-zA-Z0-9]{1,%d}$", MAX_PLAYER_NAME_LENGTH));
         Matcher m = p.matcher(str);
         return m.matches();
     }
