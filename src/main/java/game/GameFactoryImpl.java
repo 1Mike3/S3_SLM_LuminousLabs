@@ -18,9 +18,9 @@ class GameFactoryImpl implements GameFactory {
     /**
      * Creates a game for the provided gameType and handles
      * the necessary user interactions.
-     * @param io
-     * @param gameType
-     * @return
+     * @param io Contains the user input and output
+     * @param gameType The type of game to create
+     * @return our typical Resul class
      */
     @Override
     public Result<Game, String> createGame(GameIO io, GameType gameType) {
@@ -32,7 +32,7 @@ class GameFactoryImpl implements GameFactory {
             case TICTACTOE_1V1:
                 return create_TICTACTOE_1V1(io);
             default:
-                return Result.err(STR."Creation of GameType '\{io.toString()}' not implemented");
+                return Result.err("Creation of GameType '" + gameType + "' not implemented");
         }
     }
 
@@ -97,7 +97,7 @@ class GameFactoryImpl implements GameFactory {
      * @return
      */
     Result<String, String> getPlayerName(GameIO io){
-        String user_prompt = FMT."Please input a name like [a-zA-z0-9]{1,%d\{MAX_PLAYER_NAME_LENGTH}";
+        String user_prompt = String.format("Please input a name like [a-zA-Z0-9]{1,\\%d}", MAX_PLAYER_NAME_LENGTH);
         return getInputFromUser(io, this::isValidName, (str) -> str, user_prompt);
     }
 
@@ -160,7 +160,7 @@ class GameFactoryImpl implements GameFactory {
             return false;
         }
 
-        Pattern p = Pattern.compile(FMT."^[a-zA-Z0-9]{1,%d\{MAX_PLAYER_NAME_LENGTH}}$");
+        Pattern p = Pattern.compile(String.format("^[a-zA-Z0-9]{1,%d}$", MAX_PLAYER_NAME_LENGTH));
         Matcher m = p.matcher(str);
         return m.matches();
     }
