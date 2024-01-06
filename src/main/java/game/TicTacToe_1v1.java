@@ -79,7 +79,11 @@ class TicTacToe_1v1 implements Game {
 
             printBoardState();
 
-            PlayerMakeMove(activePlayer);
+            boolean statusPlayerMakeMove = PlayerMakeMove(activePlayer);
+            if(!statusPlayerMakeMove){
+                System.out.println("Error while making move");
+                exit(1);
+            }
 
 
             Result<BoardState,String> r = evaluateGameStatus(activePlayer);
@@ -150,11 +154,34 @@ class TicTacToe_1v1 implements Game {
             System.out.println(Arrays.deepToString(board.getBoardValues()));
         }
 
-        private void PlayerMakeMove(Player p){
-        System.out.println("Player " + p.getName() + " Make your move:");
+    /**
+     *
+     * @param p
+     * @return true if move was valid, false if not
+     */
+    private boolean PlayerMakeMove(Player p) {
         // Getting move from Player
-        p.makeMove(board);
+
+        Result<Boolean, String> result = p.makeMove(board);
+
+        // Case : a severe error occured
+        if (result.isErr()) {
+            return false;
         }
+
+        // Case : Player made a valid move, has chance to try again
+        if (!result.value()) {
+            for (int i = 0; i < 3; i++) {
+                System.out.println("Invalid Move, try again:");
+                result = p.makeMove(board);
+                if (result.value())
+                    return true;
+            }
+            return false;
+        }
+    }
+
+
 
 
 
