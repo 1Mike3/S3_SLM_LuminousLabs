@@ -202,6 +202,7 @@ class TicTacToe_1v1 implements Game {
 } // Endclass
  class Main{
     //TestMain
+
     public static void main(String[] args){
         System.out.println("## Testmain 1v1 Start ## \n");
 
