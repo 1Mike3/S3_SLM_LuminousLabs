@@ -1,35 +1,48 @@
 package game;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Arrays;
+
 class Board_3x3 implements Board {
     private char[][] board;
     private BoardState boardState;
-    private PlayerState playerState;
+    private Map<Character, PlayerState> playerStates; // Map to track state by player's mark
 
     Board_3x3() {
         board = new char[3][3];
+        playerStates = new HashMap<>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                board[i][j] = ' '; //initialize with empty spaces
+                board[i][j] = ' '; // Initialize with empty spaces
             }
         }
         boardState = BoardState.CREATED;
-        playerState = PlayerState.UNDEFINED;
     }
 
     @Override
     public boolean addMove(Player player, int x, int y) {
         if (x < 0 || x >= 3 || y < 0 || y >= 3 || board[x][y] != ' ') {
-            return false; //invalid move
+            return false; // Invalid move
         }
 
-        board[x][y] = player.getMark();
-        updateBoardAndPlayerState(x, y, player.getMark());
+        char mark = player.getMark();
+        board[x][y] = mark;
+
+        // Initialize player state if not already present
+        playerStates.putIfAbsent(mark, PlayerState.UNDEFINED);
+
+        updateBoardAndPlayerState(x, y, mark);
         return true;
     }
 
     @Override
     public char[][] getBoardValues() {
-        return board;
+        char[][] copy = new char[3][3];
+        for (int i = 0; i < 3; i++) {
+            System.arraycopy(board[i], 0, copy[i], 0, board[i].length);
+        }
+        return copy;
     }
 
     @Override
@@ -39,15 +52,19 @@ class Board_3x3 implements Board {
 
     @Override
     public PlayerState getPlayerState(Player player) {
-        return playerState;
+        return playerStates.getOrDefault(player.getMark(), PlayerState.UNDEFINED);
     }
+
 
     private void updateBoardAndPlayerState(int x, int y, char mark) {
         if (checkWin(x, y, mark)) {
-            playerState = PlayerState.WIN;
+            playerStates.put(mark, PlayerState.WIN);
             boardState = BoardState.DONE;
         } else if (checkDraw()) {
-            playerState = PlayerState.DRAW;
+            // Update all players to DRAW state
+            for (char key : playerStates.keySet()) {
+                playerStates.put(key, PlayerState.DRAW);
+            }
             boardState = BoardState.DONE;
         } else {
             boardState = BoardState.RUNNING;
@@ -98,4 +115,5 @@ class Board_3x3 implements Board {
             }
         }
     }
+
 }
