@@ -32,7 +32,7 @@ class GameFactoryImpl implements GameFactory {
             case TICTACTOE_1V1:
                 return create_TICTACTOE_1V1(io);
             default:
-                return Result.err(STR."Creation of GameType '\{io.toString()}' not implemented");
+                return Result.err("Creation of GameType '" + gameType + "' not implemented");
         }
     }
 
@@ -166,7 +166,7 @@ class GameFactoryImpl implements GameFactory {
             return false;
         }
 
-        Pattern p = Pattern.compile(FMT."^[a-zA-Z0-9]{1,%d\{MAX_PLAYER_NAME_LENGTH}}$");
+        Pattern p = Pattern.compile(String.format("^[a-zA-Z0-9]{1,%d}$", MAX_PLAYER_NAME_LENGTH));
         Matcher m = p.matcher(str);
         return m.matches();
     }

@@ -5,4 +5,7 @@ interface Board {
     char[][] getBoardValues();
     BoardState getBoardState();
     PlayerState getPlayerState(Player player);
+    public void printBoard();
+
 }
+

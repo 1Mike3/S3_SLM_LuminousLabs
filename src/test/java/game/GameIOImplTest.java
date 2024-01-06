@@ -177,11 +177,13 @@ public class GameIOImplTest {
      */
     @ParameterizedTest
     @ValueSource(strings =
+
     {
             "Hello World",
             "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. :)",
             "Special characters: !@#öööö$%^&*()_+ääääää{}|:\"<>?"
     })
+
     public void putString_differentStrings_correctRes(String str) {
         GameIOImpl gameIOImplTest = new GameIOImpl();
 
@@ -221,3 +223,4 @@ public class GameIOImplTest {
     }
 
 }
+

@@ -3,7 +3,6 @@
 
 name: Generate Javadoc
 
-
 on:
   push:
     branches: [ main ]
@@ -22,7 +21,13 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+        run: |
+          mvn javadoc:javadoc \
+          -Dmaven.compiler.source=21 \
+          -Dmaven.compiler.target=21 \
+          -Dmaven.compiler.release=21 \
+          -Dmaven.javadoc.failOnError=false \
+          -DadditionalJOption=-J--enable-preview
 
       - name: Upload Javadoc
         uses: actions/upload-artifact@v3
