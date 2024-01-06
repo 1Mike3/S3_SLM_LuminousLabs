@@ -1,29 +1,19 @@
-import common.Result;
-import game.Game;
+import game.App;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+/**
+ * The `Main` class serves as the entry point for the command-line interface (CLI) program.
+ * It initializes the `App` and starts the program.
+ */
 public class Main {
-    public int Test = 9; //Just a Variable to check if our Tests work, should be deleted later
+
+    /**
+     * The main method of the program.
+     * It creates an instance of the `App` class and initiates the program by calling its `start` method.
+     *
+     * @param args The command-line arguments (not used in this program).
+     */
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
-    }
-
-    private Result<Game, String> createGame(){
-        return Result.err("not implemented");
-    }
-
-    private void startGame(Game game){
-        game.startGame();
+        App app = new App();
+        app.start();
     }
 }
