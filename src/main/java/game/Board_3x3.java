@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Arrays;
 
+/**
+ * Implements a 3x3 tic-tac-toe board.
+ */
 class Board_3x3 implements Board {
     private char[][] board;
     private BoardState boardState;
     private Map<Character, PlayerState> playerStates; // Map to track state by player's mark
-
+    /**
+     * Constructor for Board_3x3. Initializes the 3x3 board with empty spaces.
+     */
     Board_3x3() {
         board = new char[3][3];
         playerStates = new HashMap<>();
@@ -20,6 +25,13 @@ class Board_3x3 implements Board {
         boardState = BoardState.CREATED;
     }
 
+    /**
+     * Adds a move to the board.
+     * @param player The player making the move.
+     * @param x The x coordinate of the move.
+     * @param y The y coordinate of the move.
+     * @return True if the move was successfully added, false otherwise.
+     */
     @Override
     public boolean addMove(Player player, int x, int y) {
         if (x < 0 || x >= 3 || y < 0 || y >= 3 || board[x][y] != ' ') {
@@ -36,6 +48,10 @@ class Board_3x3 implements Board {
         return true;
     }
 
+    /**
+     * Returns a copy of the board values.
+     * @return A copy of the board values.
+     */
     @Override
     public char[][] getBoardValues() {
         char[][] copy = new char[3][3];
@@ -45,17 +61,30 @@ class Board_3x3 implements Board {
         return copy;
     }
 
+    /**
+     * Returns the current state of the board.
+     * @return The current state of the board.
+     */
     @Override
     public BoardState getBoardState() {
         return boardState;
     }
 
+    /**
+     * Returns the state of the player.
+     * @param player The player to get the state of.
+     * @return The state of the player.
+     */
     @Override
     public PlayerState getPlayerState(Player player) {
         return playerStates.getOrDefault(player.getMark(), PlayerState.UNDEFINED);
     }
 
 
+    /**
+     * Method to check if the game is over.
+     * @return True if the game is over, false otherwise.
+     */
     private void updateBoardAndPlayerState(int x, int y, char mark) {
         if (checkWin(x, y, mark)) {
             playerStates.put(mark, PlayerState.WIN);
@@ -71,6 +100,10 @@ class Board_3x3 implements Board {
         }
     }
 
+    /**
+     * Method to check if the game is a draw.
+     * @return True if the game is a draw, false otherwise.
+     */
     private boolean checkDraw() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -82,6 +115,13 @@ class Board_3x3 implements Board {
         return true; //no empty spaces = draw
     }
 
+    /**
+     * Method to check if the game is won.
+     * @param x The x coordinate of the move.
+     * @param y The y coordinate of the move.
+     * @param mark The mark of the player making the move.
+     * @return True if the game is won, false otherwise.
+     */
     private boolean checkWin(int x, int y, char mark) {
         //check row and column
         boolean rowWin = true;
@@ -102,7 +142,10 @@ class Board_3x3 implements Board {
         return diagWin || antiDiagWin;
     }
 
-    //method to print the board
+
+    /**
+     * Prints the current state of the board to the console.
+     */
     public void printBoard() {
         System.out.println("Current Board:");
         for (int i = 0; i < 3; i++) {

@@ -5,6 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for HumanPlayer.
+ * Tests the functionality of HumanPlayer methods including making moves.
+ */
 class HumanPlayerTest {
 
     private HumanPlayer player;

@@ -8,6 +8,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
+/**
+ * Test class for Board_3X3.
+ * This class tests the functionality of the Board_3X3 class,
+ * including initial board state, move validity, win conditions, draw conditions, and board value copying.
+ */
 public class Board_3X3Test {
 
     private Board_3x3 board;
