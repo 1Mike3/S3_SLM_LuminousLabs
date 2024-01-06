@@ -210,7 +210,7 @@ public class TicTacToe1v1Test {
 
         TicTacToe_1v1 game = new TicTacToe_1v1(mockBoard,mockIO,mockPlayers);
 
-        Result<BoardState, String> result = game.evaluateGameStatus(mockPlayer);
+        Result<BoardState, String> result = game.evaluateGameStatus();
         assertNotNull(result.value());
         assertEquals(BoardState.RUNNING, result.value());
 
@@ -229,7 +229,7 @@ public class TicTacToe1v1Test {
 
         TicTacToe_1v1 game = new TicTacToe_1v1(mockBoard,mockIO,mockPlayers);
 
-        Result<BoardState, String> result = game.evaluateGameStatus(mockPlayer);
+        Result<BoardState, String> result = game.evaluateGameStatus();
         assertNull(result.value());
         assertNotNull(result.getErr());
         assertEquals("Error Boardstate is Null", result.getErr());

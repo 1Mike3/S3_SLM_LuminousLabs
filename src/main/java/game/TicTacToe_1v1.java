@@ -41,10 +41,10 @@ class TicTacToe_1v1 implements Game {
 
     /**
      * Only usable Constructor to create a new Game of TicTacToe
-     * @param board
-     * @param io
-     * @param players
-     * @throws IllegalArgumentException
+     * @param board Board Class
+     * @param io GameIO Class
+     * @param players List of Players
+     * @throws IllegalArgumentException exception if one of the parameters is invalid
      */
     TicTacToe_1v1(Board board, GameIO io, List<Player> players) throws IllegalArgumentException{
         if(board != null)
@@ -99,7 +99,7 @@ class TicTacToe_1v1 implements Game {
             }
 
 
-            Result<BoardState,String> r = evaluateGameStatus(activePlayer);
+            Result<BoardState,String> r = evaluateGameStatus();
             if(r.isErr()) {
                 System.out.println("Error while evaluating Game Status");
                 exit(1);
@@ -201,12 +201,11 @@ class TicTacToe_1v1 implements Game {
     /**
      * Method to evaluate the current Game Status
      *a
-     * @param p Player Class
+     *
      * @return Our default Result Class
      */
-        Result<BoardState,String> evaluateGameStatus(Player p) {
+        Result<BoardState,String> evaluateGameStatus() {
         BoardState bs = board.getBoardState();
-        //PlayerState ps = board.getPlayerState(p);
             Result<BoardState, String> r;
             if(bs == null)
                  r = new Result<>(null, "Error Boardstate is Null");
