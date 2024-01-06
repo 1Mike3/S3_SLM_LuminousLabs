@@ -15,7 +15,13 @@ class GameFactoryImpl implements GameFactory {
     private static final int MAX_PLAYER_NAME_LENGTH = 20;
     private static final int MAX_RETRIES = 3;
 
-
+    /**
+     * Creates a game for the provided gameType and handles
+     * the necessary user interactions.
+     * @param io Contains the user input and output
+     * @param gameType The type of game to create
+     * @return our typical Resul class
+     */
     @Override
     public Result<Game, String> createGame(GameIO io, GameType gameType) {
         if (io == null){
@@ -26,7 +32,7 @@ class GameFactoryImpl implements GameFactory {
             case TICTACTOE_1V1:
                 return create_TICTACTOE_1V1(io);
             default:
-                return Result.err(STR."Creation of GameType '\{io.toString()}' not implemented");
+                return Result.err("Creation of GameType '" + gameType + "' not implemented");
         }
     }
 
