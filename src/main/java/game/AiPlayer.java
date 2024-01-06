@@ -17,6 +17,6 @@ class AiPlayer implements Player {
 
     @Override
     public boolean makeMove(Board board) {
-        return null;
+        return true;
     }
 }
