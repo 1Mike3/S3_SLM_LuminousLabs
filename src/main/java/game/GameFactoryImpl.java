@@ -15,13 +15,7 @@ class GameFactoryImpl implements GameFactory {
     private static final int MAX_PLAYER_NAME_LENGTH = 20;
     private static final int MAX_RETRIES = 3;
 
-    /**
-     * Creates a game for the provided gameType and handles
-     * the necessary user interactions.
-     * @param io
-     * @param gameType
-     * @return
-     */
+
     @Override
     public Result<Game, String> createGame(GameIO io, GameType gameType) {
         if (io == null){
