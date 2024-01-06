@@ -117,4 +117,6 @@ public class Board3X3Test {
         boardCopy[0][0] = 'O';
         assertEquals('X', board.getBoardValues()[0][0]);
     }
+
 }
+

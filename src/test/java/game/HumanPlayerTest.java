@@ -81,4 +81,6 @@ class MockGameIO implements GameIO {
     public Result<Boolean, String> putString(String string) {
         return null;
     }
+
 }
+
