@@ -179,6 +179,7 @@ class TicTacToe_1v1 implements Game {
             }
             return false;
         }
+        return true;
     }
 
 
