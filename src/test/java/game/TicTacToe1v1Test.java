@@ -200,7 +200,6 @@ public class TicTacToe1v1Test {
     @Test
     void EvaluateGameStatus_validBoard_boardStateCorrect() {
         Board mockBoard = mock(Board.class);
-        Player mockPlayer = mock(Player.class);
         when(mockBoard.getBoardState()).thenReturn(BoardState.RUNNING);
         GameIO mockIO = mock(GameIO.class);
         Player player1 = mock(Player.class);
@@ -219,7 +218,6 @@ public class TicTacToe1v1Test {
     @Test
     void EvaluateGameStatus_InvalidBoard_Error() {
         Board mockBoard = mock(Board.class);
-        Player mockPlayer = mock(Player.class);
         when(mockBoard.getBoardState()).thenReturn(null);
         GameIO mockIO = mock(GameIO.class);
         Player player1 = mock(Player.class);

@@ -17,7 +17,7 @@ class TicTacToe_1v1 implements Game {
     private GameState gameState;
         // Game Data (Parameters)
     private Board board;
-    private GameIO io;
+    private final GameIO io;
     private List<Player> players;
 
             //region getter setter (testing and debugging)
@@ -30,12 +30,7 @@ class TicTacToe_1v1 implements Game {
             public void setBoard(Board board) {
                 this.board = board;
             }
-            public List<Player> getPlayers() {
-                return players;
-            }
-            public void setPlayers(List<Player> players) {
-                this.players = players;
-            }
+
             //endregion
 
 
