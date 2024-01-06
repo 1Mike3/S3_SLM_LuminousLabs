@@ -128,10 +128,10 @@ public class GameIOImplTest {
      */
     @ParameterizedTest
     @ValueSource(strings =
-            {
-                    "yabaDaba dooooooo0",
-                    "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfsadf1234#%ä"
-            })
+    {
+            "yabaDaba dooooooo0",
+            "asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfsadf1234#%ä"
+    })
     public void getString_differentStrings_correctRes(String str) {
 
         // Test with valid string input
@@ -177,11 +177,13 @@ public class GameIOImplTest {
      */
     @ParameterizedTest
     @ValueSource(strings =
-            {
-                    "Hello World",
-                    "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. :)",
-                    "Special characters: !@#öööö$%^&*()_+ääääää{}|:\"<>?"
-            })
+
+    {
+            "Hello World",
+            "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. :)",
+            "Special characters: !@#öööö$%^&*()_+ääääää{}|:\"<>?"
+    })
+
     public void putString_differentStrings_correctRes(String str) {
         GameIOImpl gameIOImplTest = new GameIOImpl();
 
@@ -221,3 +223,4 @@ public class GameIOImplTest {
     }
 
 }
+

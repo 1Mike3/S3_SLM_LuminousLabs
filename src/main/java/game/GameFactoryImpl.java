@@ -1,6 +1,7 @@
 package game;
 
 import common.Result;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
@@ -11,23 +12,22 @@ import java.util.regex.Pattern;
 import static java.lang.StringTemplate.STR;
 import static java.util.FormatProcessor.FMT;
 
+/**
+ * Implementation of the {@link GameFactory} interface, responsible for creating instances of various games and players.
+ */
 class GameFactoryImpl implements GameFactory {
     private static final int MAX_PLAYER_NAME_LENGTH = 20;
     private static final int MAX_RETRIES = 3;
 
     /**
-     * Creates a game for the provided gameType and handles
-     * the necessary user interactions.
-     * @param io Contains the user input and output
-     * @param gameType The type of game to create
-     * @return our typical Resul class
+     * Creates a game of the specified type using the provided {@link GameIO} instance.
+     *
+     * @param io       The {@link GameIO} instance to use for input/output.
+     * @param gameType The type of the game to create.
+     * @return A {@link Result} containing the created game or an error message.
      */
     @Override
-    public Result<Game, String> createGame(GameIO io, GameType gameType) {
-        if (io == null){
-            return Result.err("Argument io is null");
-        }
-
+    public Result<Game, String> createGame(@NotNull GameIO io, GameType gameType) {
         switch (gameType){
             case TICTACTOE_1V1:
                 return create_TICTACTOE_1V1(io);
@@ -37,9 +37,10 @@ class GameFactoryImpl implements GameFactory {
     }
 
     /**
-     * Creates a game for GameType.TICTACTOE_1V1
-     * @param io
-     * @return
+     * Creates a TicTacToe 1v1 game instance with two human players.
+     *
+     * @param io The {@link GameIO} instance to use for input/output.
+     * @return A {@link Result} containing the created game or an error message.
      */
     Result<Game, String> create_TICTACTOE_1V1(GameIO io){
         Result<Player, String> r_player_1 = createHumanPlayer(io);
@@ -71,10 +72,10 @@ class GameFactoryImpl implements GameFactory {
     }
 
     /**
-     * Creates a human player and handles all user interactions
-     * like ask for name and mark.
-     * @param io
-     * @return
+     * Creates a human player instance.
+     *
+     * @param io The {@link GameIO} instance to use for input/output.
+     * @return A {@link Result} containing the created player or an error message.
      */
     Result<Player, String> createHumanPlayer(GameIO io){
         Result<String, String> r_name = getPlayerName(io);
@@ -92,19 +93,21 @@ class GameFactoryImpl implements GameFactory {
     }
 
     /**
-     * Gets the player's name from the user.
-     * @param io
-     * @return
+     * Gets the player's name from the user through the provided {@link GameIO} instance.
+     *
+     * @param io The {@link GameIO} instance to use for input/output.
+     * @return A {@link Result} containing the player's name or an error message.
      */
     Result<String, String> getPlayerName(GameIO io){
-        String user_prompt = String.format("Please input a name like [a-zA-Z0-9]{1,\\%d}", MAX_PLAYER_NAME_LENGTH);
+        String user_prompt = FMT."Please input a name like [a-zA-Z0-9]{1,%d\{MAX_PLAYER_NAME_LENGTH}";
         return getInputFromUser(io, this::isValidName, (str) -> str, user_prompt);
     }
 
     /**
-     * Gets the player's mark from the user.
-     * @param io
-     * @return
+     * Gets a single character input for the player's mark from the user through the provided {@link GameIO} instance.
+     *
+     * @param io The {@link GameIO} instance to use for input/output.
+     * @return A {@link Result} containing the player's mark character or an error message.
      */
     Result<Character, String> getPlayerChar(GameIO io){
         String user_prompt = "Please input a single character for the board like [A-Z]{1}.";
@@ -112,13 +115,15 @@ class GameFactoryImpl implements GameFactory {
     }
 
     /**
-     * Genaric method to query a user for input and validation.
-     * @param io
-     * @param validator
-     * @param mapper
-     * @param prompt
-     * @return
-     * @param <T>
+     * Gets user input through the provided {@link GameIO} instance, validates it using the specified validator,
+     * and maps the validated input to a result using the given mapper function.
+     *
+     * @param io        The {@link GameIO} instance to use for input/output.
+     * @param validator A {@link Predicate} to validate the user input.
+     * @param mapper    A {@link Function} to map the validated input to a result value.
+     * @param prompt    The prompt message to display to the user for input.
+     * @param <T>       The type of the result value.
+     * @return A {@link Result} containing the mapped and validated result value or an error message.
      */
     private <T> Result<T, String> getInputFromUser(GameIO io, Predicate<String> validator, Function<String, T> mapper, String prompt){
         boolean isValidName;
@@ -151,9 +156,10 @@ class GameFactoryImpl implements GameFactory {
     }
 
     /**
-     * Checks is a string is a valid player name.
-     * @param str
-     * @return
+     * Validates whether the provided string is a valid player name.
+     *
+     * @param str The string to validate.
+     * @return true if the string is a valid player name, false otherwise.
      */
     boolean isValidName(String str){
         if(str == null){
@@ -166,9 +172,10 @@ class GameFactoryImpl implements GameFactory {
     }
 
     /**
-     * Checks is a char is a valid player mark.
-     * @param str
-     * @return
+     * Validates whether the provided string is a valid character (single uppercase letter).
+     *
+     * @param str The string to validate.
+     * @return true if the string is a valid character, false otherwise.
      */
     boolean isValidChar(String str){
         if(str == null || str.length() > 1){

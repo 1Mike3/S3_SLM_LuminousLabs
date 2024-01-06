@@ -11,8 +11,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Unit tests for the {@link GameFactoryImpl} class, covering various scenarios for game creation and player input validation.
+ */
 @ExtendWith(MockitoExtension.class)
 class GameFactoryImplTest {
+
+    /**
+     * Tests creating a valid game with two players and ensures it is successful.
+     */
     @Test
     void createGame_validInput_game() {
         GameFactoryImpl factory = spy(new GameFactoryImpl());
@@ -35,6 +43,9 @@ class GameFactoryImplTest {
         assertTrue(r.isOk());
     }
 
+    /**
+     * Tests creating a game where players choose the same mark and expects an error result.
+     */
     @Test
     void createGame_playersChooseSameMark_error() {
         GameFactoryImpl factory = spy(new GameFactoryImpl());
@@ -57,6 +68,9 @@ class GameFactoryImplTest {
         assertTrue(r.isErr());
     }
 
+    /**
+     * Tests creating a game where players choose the same name and expects an error result.
+     */
     @Test
     void createGame_playersChooseSameName_error() {
         GameFactoryImpl factory = spy(new GameFactoryImpl());
@@ -76,6 +90,9 @@ class GameFactoryImplTest {
         assertTrue(r.isErr());
     }
 
+    /**
+     * Tests creating a game with invalid input and expects an error result.
+     */
     @Test
     void createGame_invalid_input() {
         GameFactoryImpl factory = spy(new GameFactoryImpl());
@@ -90,6 +107,9 @@ class GameFactoryImplTest {
         assertTrue(r.isErr());
     }
 
+    /**
+     * Parameterized test for validating valid player names.
+     */
     @ParameterizedTest
     @ValueSource(strings = {"jeff", "Jeff", "PussyDestroyer69"})
     void isValidName_ValidNames(String name) {
@@ -98,6 +118,9 @@ class GameFactoryImplTest {
         assertTrue(res);
     }
 
+    /**
+     * Parameterized test for validating invalid player names.
+     */
     @ParameterizedTest
     @ValueSource(strings = {"", "jeff$", "someverylongstringthatiswaytolong"})
     void isValidName_InvalidNames(String name) {
@@ -106,6 +129,9 @@ class GameFactoryImplTest {
         assertFalse(res);
     }
 
+    /**
+     * Parameterized test for validating valid characters for the board.
+     */
     @ParameterizedTest
     @ValueSource(strings = {"A", "Z"})
     void isValidChar_ValidInput(String str) {
@@ -114,6 +140,9 @@ class GameFactoryImplTest {
         assertTrue(res);
     }
 
+    /**
+     * Parameterized test for validating invalid characters for the board.
+     */
     @ParameterizedTest
     @ValueSource(strings = {"a", "z", "9", "", "XX"})
     void isValidChar_InvalidInput(String str) {
@@ -122,6 +151,9 @@ class GameFactoryImplTest {
         assertFalse(res);
     }
 
+    /**
+     * Tests obtaining a valid player name from user input.
+     */
     @Test
     void getPlayerName_ValidUserInput() {
         GameIO io = mock(GameIO.class);
@@ -133,6 +165,9 @@ class GameFactoryImplTest {
         assertTrue(r.isOk());
     }
 
+    /**
+     * Tests obtaining an invalid player name from user input.
+     */
     @Test
     void getPlayerName_InvalidUserInput() {
         GameIO io = mock(GameIO.class);
@@ -144,6 +179,9 @@ class GameFactoryImplTest {
         assertTrue(r.isErr());
     }
 
+    /**
+     * Tests obtaining a valid player character from user input.
+     */
     @Test
     void getPlayerChar_ValidUserInput() {
         GameIO io = mock(GameIO.class);
@@ -155,6 +193,9 @@ class GameFactoryImplTest {
         assertTrue(r.isOk());
     }
 
+    /**
+     * Tests obtaining an invalid player character from user input.
+     */
     @Test
     void getPlayerChar_InvalidUserInput() {
         GameIO io = mock(GameIO.class);
@@ -166,6 +207,9 @@ class GameFactoryImplTest {
         assertTrue(r.isErr());
     }
 
+    /**
+     * Tests creating a valid human player with user input.
+     */
     @Test
     void createHumanPlayer_ValidInput() {
         GameIO io = mock(GameIO.class);
@@ -181,6 +225,9 @@ class GameFactoryImplTest {
         assertTrue(r.isOk());
     }
 
+    /**
+     * Tests creating a human player with an invalid name.
+     */
     @Test
     void createHumanPlayer_InvalidName() {
         GameIO io = mock(GameIO.class);
@@ -195,6 +242,9 @@ class GameFactoryImplTest {
         assertTrue(r.isErr());
     }
 
+    /**
+     * Tests creating a human player with an invalid character.
+     */
     @Test
     void createHumanPlayer_InvalidChar() {
         GameIO io = mock(GameIO.class);
@@ -210,6 +260,9 @@ class GameFactoryImplTest {
         assertTrue(r.isErr());
     }
 
+    /**
+     * Tests creating a TicTacToe 1v1 game with valid user input.
+     */
     @Test
     void create_TICTACTOE_1V1_ValidUserInput() {
         GameIO io = mock(GameIO.class);
@@ -225,6 +278,9 @@ class GameFactoryImplTest {
         assertTrue(r.isOk());
     }
 
+    /**
+     * Tests creating a TicTacToe 1v1 game with invalid user input.
+     */
     @Test
     void create_TICTACTOE_1V1_InValidUserInput() {
         GameIO io = mock(GameIO.class);
