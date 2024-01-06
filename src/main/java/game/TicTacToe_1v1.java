@@ -17,6 +17,8 @@ class TicTacToe_1v1 implements Game {
     private GameIO io;
     private List<Player> players;
 
+    //TODO delete
+    /*
     //Getters, mostly for debugging
     public Board getBoard() {
         return board;
@@ -28,7 +30,7 @@ class TicTacToe_1v1 implements Game {
         return players;
     }
 
-
+*/
 
     //Constructor
     TicTacToe_1v1(Board board, GameIO io, List<Player> players) throws IllegalArgumentException{
@@ -197,29 +199,45 @@ class TicTacToe_1v1 implements Game {
             return r;
         }
 
+        //region endGame
+
+    /**
+     * Method to end the Game
+     * @param players
+     * @param board
+     */
         private void endGame(List<Player> players,Board board){
         Player p1 = players.getFirst();
         Player p2 = players.getLast();
 
         PlayerState p1s = board.getPlayerState(p1);
-        switch (p1s){
+        gameState = GameState.DONE;
+        switch (p1s) {
             case WIN -> endGameWin(p1);
+            case DRAW -> endGameDraw();
+            case LOSS -> endGameWin(p2);
+            //same behaviour for undefined
+            default -> endGameUndefinded();
         }
 
-
-
         }
+
+    /**
+     * helper methods for endGame
+     */
     private void endGameWin(Player winner){
-        ;
+        this.io.putString("Player " + winner.getName() + " won the Game ");
+        this.io.putString("Congratulations");
+        //TODo print board
     }
     private void endGameDraw(){
-
+       this.io.putString("The game ended in a draw");
     }
 
     private void endGameUndefinded(){
-        this.io.putString("Random Bullshit");
+        this.io.putString("Unexpected behaviour occurred, no winner could be determined");
     }
-
+//endregion
 //endregion
 
 
@@ -258,6 +276,7 @@ class TicTacToe_1v1 implements Game {
         //Extract Game
         TicTacToe_1v1 game = (TicTacToe_1v1)r.unwrap();
 
+        /*
         List<Player> L = game.getPlayers();
         Player p1 = L.getFirst();
         Player p2 = L.getLast();
@@ -266,6 +285,8 @@ class TicTacToe_1v1 implements Game {
         System.out.println(p2.getName());
         System.out.println(p1.getMark());
         System.out.println(p2.getMark());
+        */
+
 
         game.startGame();
 
