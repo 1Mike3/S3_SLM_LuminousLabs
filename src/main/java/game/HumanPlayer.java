@@ -20,6 +20,11 @@ class HumanPlayer implements Player {
     }
 
     @Override
+    public char getMark() {
+        return 0;
+    }
+
+    @Override
     public String getName() {
         return name;
     }
