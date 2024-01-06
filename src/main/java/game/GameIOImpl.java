@@ -7,10 +7,6 @@ import java.util.Scanner;
 
 public class GameIOImpl implements GameIO {
 
-
-
-
-
     /** Variable to set the input stream
      * System.in is the default input stream, only changed for testing */
     private java.io.InputStream InputStream = System.in;
