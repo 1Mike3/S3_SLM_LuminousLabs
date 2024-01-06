@@ -1,38 +1,51 @@
 package game;
 
 import common.Result;
-
-import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.System.exit;
 
+/**
+ * Class representing a Game of TicTacToe
+ * Implements the Game Interface
+ * This is where the action happens :)
+ * @see Game
+ */
 class TicTacToe_1v1 implements Game {
 
-
-        //Parameter containing the current State of the Game (enum)
+    //Parameter containing the current State of the Game (enum)
     private GameState gameState;
         // Game Data (Parameters)
     private Board board;
     private GameIO io;
     private List<Player> players;
 
-    //TODO delete
-    /*
-    //Getters, mostly for debugging
-    public Board getBoard() {
-        return board;
-    }
-    public GameIO getIo() {
-        return io;
-    }
-    public List<Player> getPlayers() {
-        return players;
-    }
+            //region getter setter (testing and debugging)
+            public void setGameState(GameState gameState) {
+                this.gameState = gameState;
+            }
+            public Board getBoard() {
+                return board;
+            }
+            public void setBoard(Board board) {
+                this.board = board;
+            }
+            public List<Player> getPlayers() {
+                return players;
+            }
+            public void setPlayers(List<Player> players) {
+                this.players = players;
+            }
+            //endregion
 
-*/
 
-    //Constructor
+    /**
+     * Only usable Constructor to create a new Game of TicTacToe
+     * @param board
+     * @param io
+     * @param players
+     * @throws IllegalArgumentException
+     */
     TicTacToe_1v1(Board board, GameIO io, List<Player> players) throws IllegalArgumentException{
         if(board != null)
             this.board = board;
@@ -57,17 +70,15 @@ class TicTacToe_1v1 implements Game {
 
     //region core methods
 
+    /**
+     * Method to start the Game
+     * this is basically the main loop of the game
+     * where different methods from other classes are called
+     */
     @Override
     public void startGame() {
         gameState = GameState.RUNNING;
-        /**
-         * Marker for the current Player in the Game
-         * Starts with the Player 1 (0) and switches each Round ... duh
-         */
         short playerIndex = 0;
-        /**
-         * Player whichs turn it is for the current turn
-         */
         Player activePlayer;
 
 
@@ -79,7 +90,7 @@ class TicTacToe_1v1 implements Game {
             //Set the Player for this round (starts with player1)
             activePlayer = players.get(playerIndex);
 
-            printBoardState();
+            board.printBoard();
 
             boolean statusPlayerMakeMove = PlayerMakeMove(activePlayer);
             if(!statusPlayerMakeMove){
@@ -110,6 +121,10 @@ class TicTacToe_1v1 implements Game {
 
     //endregion
 
+    /**
+     * Method to get the current GameState
+     * @return GameState
+     */
     @Override
     public GameState getGameState() {
         return gameState;
@@ -122,7 +137,10 @@ class TicTacToe_1v1 implements Game {
 
 // region internals
     // Internal Methods for facilitating gameplay
-        private void printWelcomeMessage() {
+    /**
+    * Method to print a welcome message to the console
+    */
+    void printWelcomeMessage() {
             String s = String.format("""
                             \t### Game Started ###
 
@@ -135,13 +153,18 @@ class TicTacToe_1v1 implements Game {
                                   (up, down, across, or diagonally) is the winner.
                                4. When all 9 squares are full, the game is over.\s
                                   If no player has 3 marks in a row, the game ends in a draw
+                               5. You make a move by entering a Number between 1 and 9
+                                  The Number corresponds to the board position as illustrated below
+                                  1 | 2 | 3
+                                  ---------
+                                  4 | 5 | 6
+                                  ---------
+                                  7 | 8 | 9
                                         
                             \t\t # Players and Symbols #
                             P1 = %s \t %c
                             P2 = %s \t %c
-                                        
-                                        
-                                        
+                                            
                             """,
                     players.getFirst().getName(),
                     players.getFirst().getMark(),
@@ -151,32 +174,22 @@ class TicTacToe_1v1 implements Game {
             this.io.putString(s);
         }
 
-        private void printBoardState() {
-        //TODO, check State
-            System.out.println(Arrays.deepToString(board.getBoardValues()));
-        }
-
     /**
      *
-     * @param p
+     * @param p Player Class
      * @return true if move was valid, false if not
      */
-    private boolean PlayerMakeMove(Player p) {
+    boolean PlayerMakeMove(Player p) {
         // Getting move from Player
-
-        Result<Boolean, String> result = p.makeMove(board);
-
-        // Case : a severe error occured
-        if (result.isErr()) {
-            return false;
-        }
+        //true if move was valid, false if not
+        boolean result = p.makeMove(board);
 
         // Case : Player made a valid move, has chance to try again
-        if (!result.value()) {
+        if (! result) {
             for (int i = 0; i < 3; i++) {
                 System.out.println("Invalid Move, try again:");
                 result = p.makeMove(board);
-                if (result.value())
+                if (result)
                     return true;
             }
             return false;
@@ -185,10 +198,13 @@ class TicTacToe_1v1 implements Game {
     }
 
 
-
-
-
-        private Result<BoardState,String> evaluateGameStatus(Player p) {
+    /**
+     * Method to evaluate the current Game Status
+     *
+     * @param p Player Class
+     * @return Our default Result Class
+     */
+        Result<BoardState,String> evaluateGameStatus(Player p) {
         BoardState bs = board.getBoardState();
         //PlayerState ps = board.getPlayerState(p);
             Result<BoardState, String> r;
@@ -203,10 +219,10 @@ class TicTacToe_1v1 implements Game {
 
     /**
      * Method to end the Game
-     * @param players
-     * @param board
+     * @param players //List of Players
+     * @param board //Board Class
      */
-        private void endGame(List<Player> players,Board board){
+    void endGame(List<Player> players, Board board){
         Player p1 = players.getFirst();
         Player p2 = players.getLast();
 
@@ -219,23 +235,34 @@ class TicTacToe_1v1 implements Game {
             //same behaviour for undefined
             default -> endGameUndefinded();
         }
-
+            board.printBoard();
+        this.io.putString("\n### GAME END ###");
         }
 
     /**
      * helper methods for endGame
+     * @param winner The Player who won the game
+     *
      */
-    private void endGameWin(Player winner){
-        this.io.putString("Player " + winner.getName() + " won the Game ");
-        this.io.putString("Congratulations");
-        //TODo print board
-    }
-    private void endGameDraw(){
-       this.io.putString("The game ended in a draw");
+    void endGameWin(Player winner){
+        this.io.putString("\n\n## PLAYER " + winner.getName() + " WON THE GAME ## ");
+        this.io.putString("CONGRATULATIONS !!");
     }
 
+    /**
+     * helper methods for endGame
+     * call this method if the game ended in a draw
+     */
+    void endGameDraw(){
+       this.io.putString("\n\nTHE GAME ENDED IN A DRAW");
+    }
+
+    /**
+     * helper methods for endGame
+     * call this method if the game ended in a draw
+     */
     private void endGameUndefinded(){
-        this.io.putString("Unexpected behaviour occurred, no winner could be determined");
+        this.io.putString("\n\nUNEXPECTED BEHAVIOUR OCCURRED, NO WINNER COULD BE DETERMINED");
     }
 //endregion
 //endregion
@@ -246,53 +273,7 @@ class TicTacToe_1v1 implements Game {
 
 
 } // Endclass
- class Main{
-    //TestMain
 
-    public static void main(String[] args){
-        System.out.println("## Testmain 1v1 Start ## \n");
-
-        //Create Gameio
-        GameIO io = new GameIOImpl();
-
-        //Factory -- Create Tick-Tack-Toe 1V1
-        GameFactory f = new GameFactoryImpl();
-
-        /* Exzerpt Factory Return
-        Board board = new Board_3x3();
-        List<Player> players = List.of(player_1, player_2);
-        Game game = new TicTacToe_1v1(board, io, players);
-        */
-
-        //Factory Return Created Game
-        Result<Game,String> r = f.createGame(io,GameType.TICTACTOE_1V1);
-
-        //Random checks
-        System.out.println(r.isOk());
-        System.out.println(r.error());
-        System.out.println(r.unwrap());
-        System.out.println("AAAA");
-
-        //Extract Game
-        TicTacToe_1v1 game = (TicTacToe_1v1)r.unwrap();
-
-        /*
-        List<Player> L = game.getPlayers();
-        Player p1 = L.getFirst();
-        Player p2 = L.getLast();
-
-        System.out.println(p1.getName());
-        System.out.println(p2.getName());
-        System.out.println(p1.getMark());
-        System.out.println(p2.getMark());
-        */
-
-
-        game.startGame();
-
-
-    }
-}
 
 
 
