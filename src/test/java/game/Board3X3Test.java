@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  * This class tests the functionality of the Board_3X3 class,
  * including initial board state, move validity, win conditions, draw conditions, and board value copying.
  */
-public class Board_3X3Test {
+public class Board3X3Test {
 
     private Board_3x3 board;
     private Player player1, player2;
@@ -29,7 +29,7 @@ public class Board_3X3Test {
 
 
     @Test
-    public void testInitialBoardState() {
+    public void initialState_onCreation_isCreated() {
         assertEquals(BoardState.CREATED, board.getBoardState());
         for (char[] row : board.getBoardValues()) {
             for (char cell : row) {
@@ -39,7 +39,7 @@ public class Board_3X3Test {
     }
     @ParameterizedTest
     @MethodSource("invalidMoveProvider")
-    public void testInvalidMove(int x, int y) {
+    public void addMove_invalidInputs_returnsFalse(int x, int y) {
         board.addMove(player1, 0, 0); //make a valid move first
         assertFalse(board.addMove(player1, x, y));
     }
@@ -54,7 +54,7 @@ public class Board_3X3Test {
     }
 
     @Test
-    public void testAddMoveAndBoardStateTransition() {
+    public void addMove_validInput_updatesBoard() {
         assertTrue(board.addMove(player1, 0, 0));
         assertEquals(BoardState.RUNNING, board.getBoardState());
         assertEquals('X', board.getBoardValues()[0][0]);
@@ -65,7 +65,7 @@ public class Board_3X3Test {
     }
     @ParameterizedTest
     @MethodSource("winningBoardProvider")
-    public void testWinCondition(char[][] winningBoard, char winningMark) {
+    public void addMove_winningBoard_updatesStateToWin(char[][] winningBoard, char winningMark) {
         //simulate the winning moves
         for (int i = 0; i < winningBoard.length; i++) {
             for (int j = 0; j < winningBoard[i].length; j++) {
@@ -92,7 +92,7 @@ public class Board_3X3Test {
     }
 
     @Test
-    public void testDrawCondition() {
+    public void addMove_fullBoardWithoutWinner_updatesStateToDraw() {
         // Play out a full game that ends in a draw
         board.addMove(player1, 0, 0); // X
         board.addMove(player2, 0, 1); // O
@@ -110,7 +110,7 @@ public class Board_3X3Test {
     }
 
     @Test
-    public void testCopyOfBoardValues() {
+    public void getBoardValues_afterMove_returnsCopy() {
         board.addMove(player1, 0, 0);
         char[][] boardCopy = board.getBoardValues();
         assertNotSame(board.getBoardValues(), boardCopy);

@@ -23,30 +23,30 @@ class HumanPlayerTest {
     }
 
     @Test
-    void testGetMark() {
+    void getMark_returnsPlayerMark() {
         assertEquals('X', player.getMark());
     }
 
     @Test
-    void testGetName() {
+    void getName_returnsPlayerName() {
         assertEquals("TestPlayer", player.getName());
     }
 
     @Test
-    void testMakeMoveValid() {
+    void makeMove_validInput_returnsTrue() {
         mockIo.setNextInt(5); //simulate user entering 5
         assertTrue(player.makeMove(board));
     }
 
     @Test
-    void testMakeMoveInvalid() {
+    void makeMove_invalidInput_returnsFalse() {
         mockIo.setNextInt(12); //simulate user entering an invalid number
         assertFalse(player.makeMove(board));
     }
 
     @Test
-    void testMakeMoveWithErrorInInput() {
-        mockIo.setNextIntError("Input Error"); //simulate an error in input
+    void makeMove_inputError_returnsFalse() {
+        mockIo.setNextIntError(); //simulate an error in input
         assertFalse(player.makeMove(board));
     }
 
@@ -60,8 +60,8 @@ class MockGameIO implements GameIO {
         nextInt = value;
     }
 
-    void setNextIntError(String error) {
-        nextIntError = error;
+    void setNextIntError() {
+        nextIntError = "Input Error";
     }
 
     @Override
