@@ -6,4 +6,6 @@ interface Board {
     BoardState getBoardState();
     PlayerState getPlayerState(Player player);
     public void printBoard();
+
 }
+
