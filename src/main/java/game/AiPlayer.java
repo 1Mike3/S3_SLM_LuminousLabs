@@ -1,7 +1,5 @@
 package game;
 
-import common.Result;
-
 class AiPlayer implements Player {
     AiPlayer(GameIO io, String name, char mark){
 
@@ -18,7 +16,7 @@ class AiPlayer implements Player {
     }
 
     @Override
-    public Result<Boolean, String> makeMove(Board board) {
-        return null;
+    public boolean makeMove(Board board) {
+        return true;
     }
 }
